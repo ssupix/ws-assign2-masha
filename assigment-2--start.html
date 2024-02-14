@@ -51,31 +51,47 @@
     
 	<script>
 
+		const image_root_names = ["flower", "sphere", "baby", "star", "m"];
+
 		const first_load = () => { 
-			// TODO: set the main image to the first image in the array (index 0)
-			// TODO: set the thumbnail images		
+			
+			set_main_image(0);
+			set_thumbnails();	
 		}
 	
 		const set_main_image = (index) => {
-			// TODO: set the main-image src image based on the passed parameter	    
-	
-			// TODO: set the hidden textbox to the current index (if you take this approach)	    
-	
-			// update the thumbnails based on the current selection
+			
+			document.querySelector("#main-image").src = "images/" + image_root_names[index]+".jpg";
+
 			update_thumbnails(index);
 		}
 	
 		const set_thumbnails = () => {
-			// TODO: declare a variable for the thumbnail strip html (optional)
-	
-			// TODO: loop through the global array and build the html
-			//       - add an onclick handler to each thumbnail to call set_main_image(index)
-	
-			// TODO: add the html to the divThumbArea
-	
+
+			image_root_names.forEach ((picture, array_index) => {
+				
+				const new_thumb = document.createElement("img");
+			
+				new_thumb.src = "images/" + picture + "-small.jpg";
+
+
+				new_thumb.className = "clickable";
+
+				new_thumb.addEventListener("click", () => {
+					
+					set_main_image(array_index); 
+				})
+				
+				document.querySelector("#thumbnail-area").append(new_thumb);
+
+
+			})
+
 		} 
 	
 		const update_thumbnails = (current_index) => {
+
+
 			// TODO: you'll need to loop through all thumbnails
 			//		- turn on an indicator (eg opacity:1.0) if it's the selected thumb
 			//		- turn off the indicator (eg opacity:0.75) if it's not
