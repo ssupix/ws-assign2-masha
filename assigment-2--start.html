@@ -4,7 +4,9 @@
 	<meta charset="UTF-8">
 	<title>MDIA 2294</title>
 	
-	<style>	    
+	
+	<style>	 
+	   
 	    img {
 	        margin:5px;
 	    }
@@ -12,6 +14,11 @@
 	    img.clickable{
 	        cursor:pointer;
 	    }
+
+		#main-image{
+    		width: 400px;
+    	height: 400px;
+		}
 	
 	</style>
 	
@@ -35,15 +42,15 @@
 	        </tr>
 	        <tr>
 	            <td>
-	                <img src="images/first.png" id="first-btn" />            
-	                <img src="images/prev.png" id="prev-btn" />
+	                <img src="images/first.png" id="first-btn" onclick= "set_nav_first()" />            
+	                <img src="images/prev.png" id="prev-btn"/>
 	            </td>
 	            <td>
 	                <div id="thumbnail-area"></div>	        
 	            </td>
 	            <td>
-	                <img src="images/next.png" id="next-btn" />            
-	                <img src="images/last.png" id="prev-btn" />
+	                <img src="images/next.png" id="next-btn"/>            
+	                <img src="images/last.png" id="last-btn" onclick= "set_nav_last()" />
 	            </td>
 	        </tr>	    
 	    </table>       
@@ -62,7 +69,6 @@
 		const set_main_image = (index) => {
 			
 			document.querySelector("#main-image").src = "images/" + image_root_names[index]+".jpg";
-
 			update_thumbnails(index);
 		}
 	
@@ -73,51 +79,50 @@
 				const new_thumb = document.createElement("img");
 			
 				new_thumb.src = "images/" + picture + "-small.jpg";
-
-
 				new_thumb.className = "clickable";
 
 				new_thumb.addEventListener("click", () => {
-					
 					set_main_image(array_index); 
-				})
-				
+				})	
+
 				document.querySelector("#thumbnail-area").append(new_thumb);
-
-
 			})
-
 		} 
 	
 		const update_thumbnails = (current_index) => {
-
-
-			// TODO: you'll need to loop through all thumbnails
-			//		- turn on an indicator (eg opacity:1.0) if it's the selected thumb
-			//		- turn off the indicator (eg opacity:0.75) if it's not
-		} 
+        
+			const thumbnails = document.querySelectorAll("#thumbnail-area img");
+        	
+			thumbnails.forEach((thumb, index) => {
+            	if (index === current_index) {
+                	thumb.style.opacity = 1;
+            	} else {
+                	thumb.style.opacity = 0.75;
+            	}
+        	});
+    	} 
 	
 		const set_nav_first = () => {
-			// TODO: navigate to the first image (this is the easy one since it's always index zero)
-			
+    		set_main_image(0);
 		}
-	
+
 		const set_nav_last = () => {
-			// TODO: navigate to the last image (should work for any size array)
+    		set_main_image(image_root_names.length - 1);
 		}
-	
+
 		const set_nav_next = () => {
-			// TODO: move to the next image, unless at the end in which case show the first image
-			
+    		
 		}
-	
+
 		const set_nav_prev = () => {
-			// TODO: move to the previous image, unless at the end in which case show the last image
-		}	
+    		
+		}
+
+		
 	
 		window.addEventListener("load", first_load);
 
-	S</script>
+	</script>
 	
 </body>
 </html>
