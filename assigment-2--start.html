@@ -43,13 +43,13 @@
 	        <tr>
 	            <td>
 	                <img src="images/first.png" id="first-btn" onclick= "set_nav_first()" />            
-	                <img src="images/prev.png" id="prev-btn"/>
+	                <img src="images/prev.png" id="prev-btn"onclick= "set_nav_prev(current_index)"/>
 	            </td>
 	            <td>
 	                <div id="thumbnail-area"></div>	        
 	            </td>
 	            <td>
-	                <img src="images/next.png" id="next-btn"/>            
+	                <img src="images/next.png" id="next-btn"onclick= "set_nav_next(current_index)"/>            
 	                <img src="images/last.png" id="last-btn" onclick= "set_nav_last()" />
 	            </td>
 	        </tr>	    
@@ -69,7 +69,9 @@
 		const set_main_image = (index) => {
 			
 			document.querySelector("#main-image").src = "images/" + image_root_names[index]+".jpg";
+			current_index = index;
 			update_thumbnails(index);
+			
 		}
 	
 		const set_thumbnails = () => {
@@ -111,11 +113,14 @@
 		}
 
 		const set_nav_next = () => {
+			
+			current_index >= image_root_names.length - 1 ? set_main_image(0) : set_main_image(current_index + 1);
     		
 		}
 
 		const set_nav_prev = () => {
     		
+			current_index <= 0 ? set_main_image(image_root_names.length - 1) : set_main_image(current_index - 1);
 		}
 
 		
