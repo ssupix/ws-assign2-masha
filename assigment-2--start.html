@@ -44,6 +44,8 @@
 	            <td>
 	                <img src="images/first.png" id="first-btn" onclick= "set_nav_first()" />            
 	                <img src="images/prev.png" id="prev-btn"onclick= "set_nav_prev(current_index)"/>
+					<!-- we add event listener straight to html, it listens for a click and runs the function -->
+					<!-- we run set_nav_prev passing current_index-->
 	            </td>
 	            <td>
 	                <div id="thumbnail-area"></div>	        
@@ -51,6 +53,8 @@
 	            <td>
 	                <img src="images/next.png" id="next-btn"onclick= "set_nav_next(current_index)"/>            
 	                <img src="images/last.png" id="last-btn" onclick= "set_nav_last()" />
+					<!-- we add event listener straight to html, it listens for a click and runs the function-->
+					<!-- we run set_nav_next passing current_index-->
 	            </td>
 	        </tr>	    
 	    </table>       
@@ -59,18 +63,32 @@
 	<script>
 
 		const image_root_names = ["flower", "sphere", "baby", "star", "m"];
+		current_index = 0;
+
+		// we create a variable and store an array with the names of imgs inside
+		// current index variable will keep track of what image we are on. It's 0 now, because array stats at 0.
 
 		const first_load = () => { 
 			
 			set_main_image(0);
-			set_thumbnails();	
+			set_thumbnails();
+			// function first_load will run set_main_image(0); and set_thumbnails(); when called
 		}
+
+		window.addEventListener("load", first_load);
+		// I added an event listener for a window, so when the page loads first_load will be ran 
 	
 		const set_main_image = (index) => {
 			
 			document.querySelector("#main-image").src = "images/" + image_root_names[index]+".jpg";
 			current_index = index;
 			update_thumbnails(index);
+
+			// here we determine what image should be displayed on screen currently
+			// we display main image in the DOM by selecting a div with #main-image id and assigning image from the source to appear there. 
+			// Image is takes from images/ folder and then we get a name from an array and add .jpg, so the image can append on screen 
+			// Then we assign index value to current_index, so we know what image we are on
+			// And we run update_thumbnails passing the given index value
 			
 		}
 	
@@ -89,6 +107,15 @@
 
 				document.querySelector("#thumbnail-area").append(new_thumb);
 			})
+
+			// this function appends our thumbnails in #thumbnail-area div
+			// we use forEach to do same manipulation with each array name
+			// we create new img element and store it inside new_thumb variable
+			// the source of the image comes from images/ folder than takes a name from the array and has -small.jpg at the end to finish the formula
+			// we also add class .clickable to this image, so that given css can be applied to the image
+			// we add ann event listener to out newly made thumbnail image, that listens for a click
+			// when new_thumb is clicked the set_main_image function is ran with array_index passed inside, so for example when the image 3 is clicked image 3 is also displayed as main image
+			// last line tell our new_thumb images where to go, which is div with #thumbnail-area id
 		} 
 	
 		const update_thumbnails = (current_index) => {
@@ -102,30 +129,47 @@
                 	thumb.style.opacity = 0.75;
             	}
         	});
+
+			// this function will update our thumbnails and let us know which image we are one by setting its opacity to 1
+			// we create a variable thumbnails and store all the images from #thumbnail-area there
+			// We are going to loop this if statement piece through each image stored in  thumbnails with forEach 
+			// thumb is a name for a one image in thumbnails and index is its position in array
+			// if index of the image is the same as the current index set opacity to 1, otherwise set opacity to 0.75
     	} 
 	
 		const set_nav_first = () => {
     		set_main_image(0);
+
+			// set_nav_first function simply runs set_main_image passing 0, which would select the first item in our array
 		}
 
 		const set_nav_last = () => {
     		set_main_image(image_root_names.length - 1);
+
+			// this one is super simple to, it just runs set_main_image passing 4 inside
+			// length of our array would be 5, because .length just tells you the amount of items in this array
+			// by subtracting 1 we we refer to the last item of the array, which is 4
 		}
 
 		const set_nav_next = () => {
 			
 			current_index >= image_root_names.length - 1 ? set_main_image(0) : set_main_image(current_index + 1);
+
+			// this function sets next image to a next image or starts from the start
+			// if current_index is the same or more than 4 (is you are on the last image of the array) it runs set_main_image(0) (starts from the start)
+			// but if not, it just jumps to the next image by adding +1 to current_index you are on 
     		
 		}
 
 		const set_nav_prev = () => {
     		
 			current_index <= 0 ? set_main_image(image_root_names.length - 1) : set_main_image(current_index - 1);
+
+			// this function sets previous image to a next image or starts from the end
+			// if current index is less than or equals to 0 (if you are on the first image) it runs set_main_image(image_root_names.length - 1), setting main image to the last one in the array
+			// if not it just subtracts -1 from current_index and sets main image to the previous one from the array.
 		}
 
-		
-	
-		window.addEventListener("load", first_load);
 
 	</script>
 	
